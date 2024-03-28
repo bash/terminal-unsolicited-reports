@@ -46,6 +46,15 @@ In particular:
 * > OSC 106 (xterm: enable/disable a given special color; VTE: unsupported) should also report change. \
   > [Note about OSC 106 in xterm: while OSC 4, 5, 10..19 and their 100+ counterparts apply retroactively on previous contents, 106 does not, it only affects new output.]
 
+## Canonical Form
+An OSC color sequence is in *canonical form* if:
+* It uses the 7-bit (`C1`) encoding.
+* It is terminated by `ST`.
+* It uses the `rgb:<r>/<g>/<b>` syntax for colors without alpha and the `rgba:<r>/<g>/<b>/<a>` syntax for colors with alpha channel. The channels are encoded as 16-bit hexadecimal colors.
+
+> TODO: `OSC 4;256+x` is an alias for `OSC 5;x`
+
+
 ## Report Syntax
 > TODO: reports always use the *canonical form* in terms of 
 > * ST/BEL and C1/C0.
