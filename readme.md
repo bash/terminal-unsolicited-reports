@@ -100,9 +100,27 @@ Each of these colors has a corresponding reset sequence
 [source][xterm-ctrlseqs]
 
 ## Ⅱ. Terminal Survey
-The following terminals were tested for their *current* behaviour when encountering `?+` and `?-` in place of `?`. The goal is to prevent the proposed syntax from interfering with current behaviour.
+This is how terminals currently react to proposed sequences that would enable / disable continous reporting:
 
-> TODO. Survey terminals listed here: https://github.com/bash/terminal-dark-light-agenda/tree/main/x11-colors
+* xterm.js: —
+* iTerm2: TODO
+* Terminal.app: TODO
+* Alacritty: —
+* Contour: —
+* vte: —
+* Konsole: —
+* foot: —
+* xterm: —
+* WezTerm: TODO
+* kitty: —
+* Rio: —
+* rxvt-unicode: Sets background to pink because `?+` and `?-` are unrecognzied colors.
+* Terminology: Reports the current color (It recognizes anything that starts with `?` as a one-time query).
+* tmux: —
+* mintty: TODO
+* st: —
+
+Tested using [test.py](./test.py).
 
 ## Ⅲ. Additional Links
 * [xterm's Control Sequences][xterm-ctrlseqs]
