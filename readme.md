@@ -104,7 +104,7 @@ Each of these colors has a corresponding reset sequence
 
 ## Ⅱ. Terminal Survey
 The following terminals do something when encountering the new sequences:
-* rxvt-unicode: Sets the background to pink because `?+` and `?-` are unrecognzied colors.
+* rxvt-unicode: Sets the background to pink because `+?` and `-?` are unrecognzied colors.
 
 The following terminals do nothing when encountering the new sequences:
 * Alacritty
