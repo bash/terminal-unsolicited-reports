@@ -67,10 +67,10 @@ Using an escape sequence to deliver the change notification
 has a couple of advantages over using `SIGWINCH`:
 
 * `SIWGINCH` is fired many times when the terminal is resized.
-  Applications that care about the color need to debounce the signal somehow
+  Programs that care about the color need to debounce the signal somehow
   to avoid sending `OSC 10` / `OSC 11` too often.
 * An escape sequence can deliver the new color value
-  directly so applications don't have to send `OSC 10` / `OSC 11`
+  directly so programs don't have to send `OSC 10` / `OSC 11`
   themselves.
 * An escape sequences is portable to Windows.
 
