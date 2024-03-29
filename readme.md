@@ -100,25 +100,31 @@ Each of these colors has a corresponding reset sequence
 [source][xterm-ctrlseqs]
 
 ## Ⅱ. Terminal Survey
-This is how terminals currently react to proposed sequences that would enable / disable continous reporting:
-
-* xterm.js: —
-* iTerm2: TODO
-* Terminal.app: TODO
-* Alacritty: —
-* Contour: —
-* vte: —
-* Konsole: —
-* foot: —
-* xterm: —
-* WezTerm: TODO
-* kitty: —
-* Rio: —
+The following terminals do something when encountering the new sequences:
 * rxvt-unicode: Sets background to pink because `?+` and `?-` are unrecognzied colors.
 * Terminology: Reports the current color (It recognizes anything that starts with `?` as a one-time query).
-* tmux: —
-* mintty: TODO
-* st: —
+* zellij: Reports the current color for `OSC 4` (It recognizes anything that starts with `?` as a one-time query).
+
+The following terminals do nothing when encountering the new sequences:
+* xterm.js
+* iTerm2
+* Terminal.app
+* Alacritty
+* Contour
+* vte
+* Konsole
+* foot
+* xterm
+* kitty
+* Rio
+* tmux
+* st
+* JediTerm
+* WezTerm
+* Linux console
+
+TODO:
+* mintty
 
 Tested using [test.py](./test.py).
 
