@@ -106,25 +106,23 @@ The following terminals do something when encountering the new sequences:
 * zellij: Reports the current color for `OSC 4` (It recognizes anything that starts with `?` as a one-time query).
 
 The following terminals do nothing when encountering the new sequences:
-* xterm.js
-* iTerm2
-* Terminal.app
 * Alacritty
 * Contour
-* vte
-* Konsole
 * foot
-* xterm
-* kitty
-* Rio
-* tmux
-* st
+* iTerm2
 * JediTerm
-* WezTerm
+* kitty
+* Konsole
 * Linux console
-
-TODO:
 * mintty
+* Rio
+* st
+* Terminal.app
+* tmux
+* vte
+* WezTerm
+* xterm
+* xterm.js
 
 Tested using [test.py](./test.py).
 
