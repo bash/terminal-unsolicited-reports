@@ -9,12 +9,12 @@ The goal is to extend terminals with *continous reporting* for each color.
 ## Syntax
 The *OSC Color Control Sequences* are extended with two new special *spec* values analogous to the existing special *spec* `?`:
 
-* `?+` enables continous reporting of the color set by the OSC sequence.
-* `?-` disables continous reporting of the color set by the OSC sequence.
+* `+?` enables continous reporting of the color set by the OSC sequence [^1]. 
+* `-?` disables continous reporting of the color set by the OSC sequence.
 
 Each color in the 256-color table can have continous reporting enabled or disabled individually.
 
-If the terminal supports querying / setting multiple colors in one sequence (e.g. `OSC 4 ; 0 ; red ; 1 ; ? ST` sets `0` to red and queries `1`) then this is also extended to enabling / disabling continous reporting (e.g. `OSC 4 ; 0 ; red ; 1 ; ? ; 2 ; ?- ; 3 ; ?+ ST` sets `0` to red, queries `1`, disables continous reporting for `2` and enables continous reporting for `3`).
+If the terminal supports querying / setting multiple colors in one sequence (e.g. `OSC 4 ; 0 ; red ; 1 ; ? ST` sets `0` to red and queries `1`) then this is also extended to enabling / disabling continous reporting (e.g. `OSC 4 ; 0 ; red ; 1 ; ? ; 2 ; -? ; 3 ; +? ST` sets `0` to red, queries `1`, disables continous reporting for `2` and enables continous reporting for `3`).
 
 *Special* colors i.e. colors set via `OSC 5` and the corresponding `OSC 4;256+x` alias are intentionally omitted from this specification.
 
@@ -104,9 +104,7 @@ Each of these colors has a corresponding reset sequence
 
 ## Ⅱ. Terminal Survey
 The following terminals do something when encountering the new sequences:
-* rxvt-unicode: Sets background to pink because `?+` and `?-` are unrecognzied colors.
-* Terminology: Reports the current color (It recognizes anything that starts with `?` as a one-time query).
-* zellij: Reports the current color for `OSC 4` (It recognizes anything that starts with `?` as a one-time query).
+* rxvt-unicode: Sets the background to pink because `?+` and `?-` are unrecognzied colors.
 
 The following terminals do nothing when encountering the new sequences:
 * Alacritty
@@ -121,11 +119,13 @@ The following terminals do nothing when encountering the new sequences:
 * Rio
 * st
 * Terminal.app
+* Terminology
 * tmux
 * vte
 * WezTerm
 * xterm
 * xterm.js
+* zellij
 
 Tested using [test.py](./test.py).
 
@@ -134,6 +134,13 @@ Tested using [test.py](./test.py).
 * [Kitty's Terminal Protocol Extensions](https://sw.kovidgoyal.net/kitty/protocol-extensions/)
 * [WezTerm's Escape Sequences](https://wezfurlong.org/wezterm/escape-sequences.html)
 * [iTerm2's Escape Sequences](https://iterm2.com/documentation-escape-codes.html)
+
+
+[^1]: A previous draft of this proposal used `?+` and `?-` instead. This was an issue
+      because specs starting with `?` are misparsed by Terminology, zellij and possibly others
+      as a one-time query. This might cause issues as applications would expect `?-` to disable
+      the continuous query.
+
 
 [VTE]: https://gitlab.gnome.org/GNOME/vte
 [vte-issue]: https://gitlab.gnome.org/GNOME/vte/-/issues/2740
