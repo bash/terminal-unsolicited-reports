@@ -25,6 +25,9 @@ Continous reporting always produces OSC color control sequences in *canonical fo
 
 Upon enabling continous reporting, the current value is **not** reported. Programs that wish to know the current value send the sequence to enable continous reporting followed by the sequence for a one-time report. The reverse order is incorrect and may lead to a race condition.
 
+It's particularly important that terminals do not generate a report if the *effective value* has not changed
+to prevent infinite loops between programs setting the color via OSC and the terminal reporting the change.
+
 ## Effective Value
 The *effective value* of a color is the value that would be reported by querying the terminal using a one-time query (`?`).
 
