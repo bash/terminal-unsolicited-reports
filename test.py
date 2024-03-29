@@ -35,3 +35,4 @@ def test(specs):
 
 test(["?"])
 test(["?+", "?-"])
+test(["?prefix"])
