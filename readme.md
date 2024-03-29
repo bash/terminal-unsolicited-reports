@@ -1,4 +1,4 @@
-# Color Change Events
+# Continous Color Reporting
 Terminal programs can query the terminal's colors by sending the color's corresponding `OSC` sequence with `?` instead of a color.
 
 However, long lived programs currently have no way of being notified about changes to these colors.
