@@ -28,6 +28,9 @@ Upon enabling continous reporting, the current value is **not** reported. Progra
 It's particularly important that terminals do not generate a report if the *effective value* has not changed
 to prevent infinite loops between programs setting the color via OSC and the terminal reporting the change.
 
+Terminals may choose to bundle up reports (e.g. to avoid reporting multiple changes in quick succession) and deliver them with a short delay.
+If a program has enabled continous reporting for multiple colors it may see the changes in a different order than they actually occured.
+
 ## Effective Value
 The *effective value* of a color is the value that would be reported by querying the terminal using a one-time query (`?`).
 
