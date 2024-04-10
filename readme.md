@@ -57,7 +57,7 @@ Terminals are still considered to conform to this spec if they omit continous re
 
 ## Implementation
 * [VTE]: [issue][vte-issue] open, patch submitted
-* [xterm]: no issue opened yet
+* [xterm]: (communication via email)
 * [Alacritty]: [issue][alacritty-issue] open
 * [iTerm2]: no issue opened yet
 * [mintty]: no issue opened yet
