@@ -56,7 +56,7 @@ Analogously to mouse reporting and FocusIn/FocusOut reporting, continous reporti
 Terminals are still considered to conform to this spec if they omit continous reporting for colors that they don't support for setting / one-time querying.
 
 ## Implementation
-* [VTE]: [issue][vte-issue] open, in discussion, patch submitted
+* [VTE]: [issue][vte-issue] open, patch submitted
 * [xterm]: no issue opened yet
 * [Alacritty]: no issue opened yet
 * [iTerm2]: no issue opened yet
