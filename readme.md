@@ -75,6 +75,8 @@ has a couple of advantages over using `SIGWINCH`:
 * `SIWGINCH` is fired many times when the terminal is resized.
   Programs that care about the color need to debounce the signal somehow
   to avoid sending `OSC 10` / `OSC 11` too often.
+* There's a clear and granular opt-in for color notification
+  so programs can choose which colors they care about.
 * An escape sequence can deliver the new color value
   directly so programs don't have to send `OSC 10` / `OSC 11`
   themselves.
