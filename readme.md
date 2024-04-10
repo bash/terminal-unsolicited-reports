@@ -56,9 +56,11 @@ Analogously to mouse reporting and FocusIn/FocusOut reporting, continous reporti
 Terminals are still considered to conform to this spec if they omit continous reporting for colors that they don't support for setting / one-time querying.
 
 ## Implementation
-* [VTE]: [issue][vte-issue] open, in discussion
+* [VTE]: [issue][vte-issue] open, in discussion, patch submitted
+* [xterm]: no issue opened yet
 * [Alacritty]: no issue opened yet
 * [iTerm2]: no issue opened yet
+* [mintty]: no issue opened yet
 * [tmux]: no issue opened yet
 * [zellij]: no issue opened yet
 
@@ -158,3 +160,5 @@ Tested using [test.py](./test.py).
 [tmux-sigwinch]: https://github.com/tmux/tmux/issues/3582
 [zellij-sigwinch]: https://github.com/zellij-org/zellij/pull/1358
 [xterm-ctrlseqs]: https://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
+[mintty]: https://github.com/mintty/mintty
+[xterm]: https://invisible-island.net/xterm
