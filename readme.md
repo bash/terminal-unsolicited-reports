@@ -45,7 +45,7 @@ Additionally this definition accounts for terminals that have multiple "levels" 
 
 ## Canonical Form
 An OSC color control sequence is in *canonical form* if:
-* It uses the 7-bit `C1` encoding.
+* It uses the 7-bit `C0` encoding.
 * It is terminated by `ST`.
 * It uses the `rgb:rrrr/gggg/bbbb` form for colors without alpha and the `rgba:rrrr/gggg/bbbb/aaaa` form for colors with alpha. The channels are encoded as 16-bit hexadecimal numbers.
 
