@@ -9,7 +9,7 @@ The goal is to extend terminals with *continous reporting* for each color.
 ## Syntax
 The *OSC Color Control Sequences* are extended with two new special *spec* values analogous to the existing special *spec* `?`:
 
-* `+?` enables continous reporting of the color set by the OSC sequence [^1]. 
+* `+?` enables continous reporting of the color set by the OSC sequence [^1].
 * `-?` disables continous reporting of the color set by the OSC sequence.
 
 Each color in the 256-color table can have continous reporting enabled or disabled individually.
