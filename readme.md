@@ -58,7 +58,7 @@ Terminals are still considered to conform to this spec if they omit continous re
 ## Implementation
 * [VTE]: [issue][vte-issue] open, patch submitted
 * [xterm]: no issue opened yet
-* [Alacritty]: no issue opened yet
+* [Alacritty]: [issue][alacritty-issue] open
 * [iTerm2]: no issue opened yet
 * [mintty]: no issue opened yet
 * [tmux]: no issue opened yet
@@ -162,3 +162,4 @@ Tested using [test.py](./test.py).
 [xterm-ctrlseqs]: https://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
 [mintty]: https://github.com/mintty/mintty
 [xterm]: https://invisible-island.net/xterm
+[alacritty-issue]: https://github.com/alacritty/alacritty/issues/7900
