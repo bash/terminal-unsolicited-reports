@@ -55,7 +55,7 @@ Analogously to mouse reporting and FocusIn/FocusOut reporting, continous reporti
 ## Partial Support
 Terminals are still considered to conform to this spec if they omit continous reporting for colors that they don't support for setting / one-time querying.
 
-## Prior Art
+## Prior Art / Alternatives
 ### `SIGWINCH`
 This mechanism is implemented by [iTerm][iterm-sigwinch].
 Some tools such as [tmux][tmux-sigwinch] and [zellij][zellij-sigwinch] already interpret `SIGWINCH` as a color changed signal.
@@ -72,6 +72,9 @@ has a couple of advantages over using `SIGWINCH`:
   directly so programs don't have to send `OSC 10` / `OSC 11`
   themselves.
 * An escape sequences is portable to Windows.
+
+### Dark and Light Mode Detection
+Contour provides [dark and light mode detection][contour-dark-light] using a custom device status report sequence.
 
 ## Possible Extensions
 * Extend continous reporting to *special* colors (bold, ...).
@@ -130,7 +133,7 @@ Tested using [test.py](./test.py).
 * [Kitty's Terminal Protocol Extensions](https://sw.kovidgoyal.net/kitty/protocol-extensions/)
 * [WezTerm's Escape Sequences](https://wezfurlong.org/wezterm/escape-sequences.html)
 * [iTerm2's Escape Sequences](https://iterm2.com/documentation-escape-codes.html)
-
+* [Contour's VT Extensions][contour-vt-ext]
 
 [^1]: A previous draft of this proposal used `?+` and `?-` instead. This was an issue
       because specs starting with `?` are misparsed by Terminology, zellij and possibly others
@@ -142,3 +145,6 @@ Tested using [test.py](./test.py).
 [tmux-sigwinch]: https://github.com/tmux/tmux/issues/3582
 [zellij-sigwinch]: https://github.com/zellij-org/zellij/pull/1358
 [xterm-ctrlseqs]: https://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
+[contour-vt-ext]: http://contour-terminal.org/vt-extensions
+[contour-dark-light]: http://contour-terminal.org/vt-extensions/color-palette-update-notifications/
+
