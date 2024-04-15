@@ -55,17 +55,6 @@ Analogously to mouse reporting and FocusIn/FocusOut reporting, continous reporti
 ## Partial Support
 Terminals are still considered to conform to this spec if they omit continous reporting for colors that they don't support for setting / one-time querying.
 
-## Implementation
-* [VTE]: [issue][vte-issue] open, patch submitted
-* [xterm]: (communication via email)
-* [Alacritty]: [issue][alacritty-issue] open
-* [iTerm2]: no issue opened yet
-* [mintty]: no issue opened yet
-* [tmux]: no issue opened yet
-* [zellij]: no issue opened yet
-
-Not on the list? Feel free to open a PR.
-
 ## Prior Art
 ### `SIGWINCH`
 This mechanism is implemented by [iTerm][iterm-sigwinch].
@@ -149,17 +138,7 @@ Tested using [test.py](./test.py).
       the continuous query.
 
 
-[VTE]: https://gitlab.gnome.org/GNOME/vte
-[vte-issue]: https://gitlab.gnome.org/GNOME/vte/-/issues/2740
-[Konsole]: https://invent.kde.org/utilities/konsole
-[tmux]: https://github.com/tmux/tmux
-[zellij]: https://github.com/zellij-org/zellij
-[Alacritty]: https://github.com/alacritty/alacritty
-[iTerm2]: https://gitlab.com/gnachman/iterm2/-/issues
 [iterm-sigwinch]: https://gitlab.com/gnachman/iterm2/-/issues/9855
 [tmux-sigwinch]: https://github.com/tmux/tmux/issues/3582
 [zellij-sigwinch]: https://github.com/zellij-org/zellij/pull/1358
 [xterm-ctrlseqs]: https://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
-[mintty]: https://github.com/mintty/mintty
-[xterm]: https://invisible-island.net/xterm
-[alacritty-issue]: https://github.com/alacritty/alacritty/issues/7900
