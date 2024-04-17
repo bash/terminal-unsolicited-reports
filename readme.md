@@ -134,6 +134,8 @@ Tested using [test.py](./test.py).
 * [WezTerm's Escape Sequences](https://wezfurlong.org/wezterm/escape-sequences.html)
 * [iTerm2's Escape Sequences](https://iterm2.com/documentation-escape-codes.html)
 * [Contour's VT Extensions][contour-vt-ext]
+* [mintty's Control Sequences][mintty-ctrlseqs]
+* [`console_codes(4)` man page][linux-console-codes]
 
 [^1]: A previous draft of this proposal used `?+` and `?-` instead. This was an issue
       because specs starting with `?` are misparsed by Terminology, zellij and possibly others
@@ -147,4 +149,5 @@ Tested using [test.py](./test.py).
 [xterm-ctrlseqs]: https://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
 [contour-vt-ext]: http://contour-terminal.org/vt-extensions
 [contour-dark-light]: http://contour-terminal.org/vt-extensions/color-palette-update-notifications/
-
+[mintty-ctrlseqs]: https://github.com/mintty/mintty/wiki/CtrlSeqs
+[linux-console-codes]: https://man7.org/linux/man-pages/man4/console_codes.4.html
