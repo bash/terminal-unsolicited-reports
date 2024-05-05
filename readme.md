@@ -22,14 +22,16 @@ If the terminal supports querying / setting multiple colors in one sequence (e.g
 The terminal sends a report if and only if the *effective value* of a color changes and continous reporting is enabled for that color.
 
 Continous reporting always produces OSC color control sequences in *canonical form*.
+The encoding (`C0` / `C1`) matches the last OSC sequence received that enables continuous reporting for this color (even if continuous reporting was already enabled).
 
 Upon enabling continous reporting, the current value is **not** reported. Programs that wish to know the current value send the sequence to enable continous reporting followed by the sequence for a one-time report. The reverse order is incorrect and may lead to a race condition.
 
-It's particularly important that terminals do not generate a report if the *effective value* has not changed
-to prevent infinite loops between programs setting the color via OSC and the terminal reporting the change.
+Terminals may report a change even if the *effective value* has not changed. \
+Programs that have continuous reporting enabled *and* want to use an OSC sequence
+to set the color have to be careful to avoid a feedback loop.
 
 Terminals may choose to bundle up reports (e.g. to avoid reporting multiple changes in quick succession) and deliver them with a short delay.
-If a program has enabled continous reporting for multiple colors it may see the changes in a different order than they actually occured.
+Reports are emitted in the same order that the colors were changed. When multiple changes occur in one bundling interval the order is determined by the first change.
 
 ## Effective Value
 The *effective value* of a color is the value that would be reported by querying the terminal using a one-time query (`?`).
@@ -45,7 +47,6 @@ Additionally this definition accounts for terminals that have multiple "levels" 
 
 ## Canonical Form
 An OSC color control sequence is in *canonical form* if:
-* It uses the 7-bit `C0` encoding.
 * It is terminated by `ST`.
 * It uses the `rgb:rrrr/gggg/bbbb` form for colors without alpha and the `rgba:rrrr/gggg/bbbb/aaaa` form for colors with alpha. The channels are encoded as 16-bit hexadecimal numbers.
 
