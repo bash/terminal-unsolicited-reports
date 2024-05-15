@@ -104,9 +104,11 @@ Each of these colors has a corresponding reset sequence
 
 ## Ⅱ. Terminal Survey
 The following terminals do something when encountering the new sequences:
+
 * rxvt-unicode: Sets the background to pink because `+?` and `-?` are unrecognzied colors.
 
 The following terminals do nothing when encountering the new sequences:
+
 * Alacritty
 * Contour
 * foot
@@ -130,6 +132,7 @@ The following terminals do nothing when encountering the new sequences:
 Tested using [test.py](./test.py).
 
 ## Ⅲ. Additional Links
+
 * [xterm's Control Sequences][xterm-ctrlseqs]
 * [Kitty's Terminal Protocol Extensions](https://sw.kovidgoyal.net/kitty/protocol-extensions/)
 * [WezTerm's Escape Sequences](https://wezfurlong.org/wezterm/escape-sequences.html)
