@@ -3,14 +3,16 @@
 ### Summary
 This specification introduces an opt-in mechanism for terminals to inform applications of individual changes to the color palette (background, foreground, etc.). This is done by augmenting the behaviour of the existing `OSC` color queries using a new DEC private mode.
 
+The following specification is largely based on a [discussion in VTE's issue tracker][vte-discussion].
+
 ### Motivation
-Applications today can query the terminal's colors using XTerm's `OSC 4`, `OSC 5`, `OSC 10`, ... sequences. There is however no way to be informed when these color change.
+Applications today can query the terminal's colors using XTerm's `OSC 4; ?`, `OSC 5; ?`, `OSC 10; ?`, ... sequences. There is however no way to be informed when these colors change.
 
 This can happen when the user changes their color scheme manually or when the terminal changes with the system's dark-light preference.
 
 The current state is an issue for the following kinds of applications:
 * **multiplexers** such as tmux need to respond to one-time queries and have no way of knowing when the connected terminal changes its colors.
-* **TUIs** such as VIM only detect the users dark-light preference on startup and don't change with the terminal.
+* **TUIs** such as VIM only detect the users dark-light preference at startup and don't change with the terminal.
 
 ## Overview
 Terminals send an *unsolicited report* when the *effective value* of a *tracked query* changes.
@@ -68,6 +70,8 @@ This definition leaves room for terminals to change a color's value without affe
 
 Additionally this definition accounts for terminals that have multiple "levels" per color (e.g. user preference and set via `OSC` sequence).
 
+Furthermore it leaves room for terminals to "stub" certain responses (e.g. VTE responds to queries for unimplemented *special colors* with the default foreground color).
+
 ### Canonical Form
 An `OSC` color control sequence is in *canonical form* if:
 * It is terminated by `ST` (instead of `BEL`).
@@ -106,8 +110,6 @@ Each of these colors has a corresponding reset sequence
 
 ## Prior Art and Alternatives
 
-<details>
-
 ### `SIGWINCH`
 This mechanism is implemented by [iTerm2][iterm-sigwinch].
 Some tools such as [tmux][tmux-sigwinch] and [zellij][zellij-sigwinch] already interpret `SIGWINCH` as a color changed signal.
@@ -128,15 +130,13 @@ has a couple of advantages over using `SIGWINCH`:
 ### Dark and Light Mode Detection
 Contour provides [dark and light mode detection][contour-dark-light] using a custom device status report sequence.
 
-This is not sufficient for multiplexers that want to respond to one-time OSC color queries with up-to-date values.
+While this method is by far easier to use by applications, it is not sufficient for multiplexers that want to respond to one-time OSC color queries with up-to-date values.
 
 ### Extend OSC Queries with `+?` and `-?`
 See the [discussion][vte-discussion] in VTE's issue tracker.
 
 ### Colour Table Report
 See the [discussion][vte-discussion] in VTE's issue tracker.
-
-</details>
 
 ## Resources
 
