@@ -21,13 +21,15 @@ Applications opt in to this behaviour by enabling the new *Unsolicited Reports M
 
 This design has nice consequence for backwards compatibility: Apps send `DECSET 2510` followed by the query sequence. In terminals that don't support this specification they at least get back a one-time response.
 
-Unsolicited reporting follows the granularity of the queries themselves. This means that individual colors of the 256-color palette can be tracked by sending an `OSC 4` query while the *unsolicited reports mode* is enabled.
+Unsolicited reporting follows the granularity of the queries themselves[^granularity]. This means that individual colors of the 256-color palette can be tracked by sending an `OSC 4` query while the *unsolicited reports mode* is enabled.
+
+[^granularity]: This spec is lenient enough that terminals can make the granularity more coarse if they choose to. For example, a terminal may choose to group all `OSC 4` or `OSC 5` queries together.
 
 ## Definitions
 
 ### Unsolicited Reports Mode
 Unsolicited Reports Mode is a new DEC private mode.
-It uses the `DECSET`/`DECRST` number `2510` [^1].
+It uses the `DECSET`/`DECRST` number `2510` [^number].
 
 **Set**ting the mode using `DECSET` doesn't have an immediate effect. \
 One-time queries received while the mode is enabled add the query to the set of *tracked queries*.
@@ -39,7 +41,7 @@ While the mode initially only affects *OSC color queries* it is intentionally ke
 
 <small>
 
-[^1]: I chose this number to be close to the existing numbers chosen by VTE but not conflict with any existing `DECSET` numbers. See my [exhaustive list][dec-modes] of DEC modes.
+[^number]: I chose this number to be close to the existing numbers chosen by VTE but not conflict with any existing `DECSET` numbers. See my [exhaustive list][dec-modes] of DEC modes.
 
 </small>
 
