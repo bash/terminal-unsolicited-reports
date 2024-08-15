@@ -12,18 +12,20 @@ This can happen when the user changes their color scheme manually or when the te
 
 The current state is an issue for the following kinds of applications:
 * **multiplexers** such as tmux need to respond to one-time queries and have no way of knowing when the connected terminal changes its colors.
-* **TUIs** such as VIM only detect the users dark-light preference at startup and don't change with the terminal.
+* **TUIs** such as VIM only detect the users dark-light preference at startup and don't adapt to changes from the terminal.
 
 ## Overview
 Terminals send an *unsolicited report* when the *effective value* of a *tracked query* changes.
 
-Applications opt in to this behaviour by enabling the new *Unsolicited Reports Mode*. One-time queries sent while this mode is enabled add the query to the terminal's set of *tracked queries*. The one-time report is still generated and follows the same principles as unsolicited reports with regards to its format.
+Applications opt in to this behaviour by enabling the new *Unsolicited Reports Mode*. One-time queries sent while this mode is enabled add the query to the terminal's set of *tracked queries*. The one-time report is still generated and follows the same principles as unsolicited reports with regards to its format [^one-time-query-format].
 
-This design has nice consequence for backwards compatibility: Apps send `DECSET 2510` followed by the query sequence. In terminals that don't support this specification they at least get back a one-time response.
+In terminals that don't support the new *Unsolicited Reports Mode*
+applications get a graceful fallback i.e. they receive the current value in response to the query.
 
 Unsolicited reporting follows the granularity of the queries themselves[^granularity]. This means that individual colors of the 256-color palette can be tracked by sending an `OSC 4` query while the *unsolicited reports mode* is enabled.
 
-[^granularity]: This spec is lenient enough that terminals can make the granularity more coarse if they choose to. For example, a terminal may choose to group all `OSC 4` or `OSC 5` queries together.
+[^granularity]: This spec is lax enough that terminals can make the granularity more coarse if they choose to. For example, a terminal may choose to group all `OSC 4` or `OSC 5` queries together.
+[^one-time-query-format]: Namely that it also uses the *canonical form* if the query is in *canonical form*.
 
 ## Definitions
 
@@ -39,11 +41,7 @@ clear the set of *tracked queries*.
 
 While the mode initially only affects *OSC color queries* it is intentionally kept general to allow future extensions. For example unsolicited reports for `CSI ... t` window ops.
 
-<small>
-
 [^number]: I chose this number to be close to the existing numbers chosen by VTE but not conflict with any existing `DECSET` numbers. See my [exhaustive list][dec-modes] of DEC modes.
-
-</small>
 
 ### Tracked Queries
 The set of tracked queries determines for which changes the terminal generates an *unsolicited* report. Queries can be added to this set by sending a one-time query while the *unsolicited reports mode* is enabled.
@@ -51,14 +49,19 @@ The set of tracked queries determines for which changes the terminal generates a
 ### Unsolicited Report
 Terminals send an *unsolicited report* when the *effective value* of a *tracked query* changes.
 
-Unsolicited reports always use the *canonical form* if the original query was in canonical form. If the original query is not in canonical form it is left undefined what form the report uses.
+Unsolicited reports always use the *canonical form* of the one-time report if the *tracked query* was in *canonical form*.
+If the *tracked query* was not in canonical form, then it is left undefined what form the report uses.
 
-Terminals may report a change even if the *effective value* has not changed. \
-Programs that have continuous reporting enabled *and* want to use an OSC sequence
-to set the queried value have to be careful to avoid a feedback loop.
+Terminals may report a change even if the *effective value* has not changed [^feedback-loop].
 
 Terminals may choose to bundle up reports (e.g. to avoid reporting multiple changes in quick succession) and deliver them with a short delay.
 Reports are emitted in the same order as the changes have occurred in. When multiple changes occur in one bundling interval the order is determined by the first change.
+
+[^feedback-loop]: 
+	Applications that have continuous reporting enabled
+    *and* want to use an OSC sequence
+    to set the queried value have to be careful to
+    avoid a possible feedback loop.
 
 ### Effective Value
 The *effective value* of a palette color is the value reported in response to a one-time `OSC` query (e.g. `OSC 11 ; ?`).
@@ -78,15 +81,19 @@ Furthermore it leaves room for terminals to "stub" certain responses (e.g. VTE r
 An `OSC` color control sequence is in *canonical form* if:
 * It is terminated by `ST` (instead of `BEL`).
 * It is encoded as `C0`.
-* It uses the `rgb:rrrr/gggg/bbbb` form for fully opaque colors and the `rgba:rrrr/gggg/bbbb/aaaa` form for partially opaque colors. The channels (and opacity) are encoded as 16-bit hexadecimal numbers.
+* It uses the `rgb:rrrr/gggg/bbbb` form for fully opaque colors and the `rgba:rrrr/gggg/bbbb/aaaa` [^partially-opaque] form for partially opaque colors. The channels (and opacity) are encoded as 16-bit hexadecimal numbers [^compatibility].
 
 For *special colors* the canonical form is `OSC 5 ; n` instead of `OSC 4 ; 256+n`.
 
-> ℹ️ Applications that want to be compatible with a wide range of terminals have to support some variation in the responses:
-> * Both `st` and macOS' built-in terminal always terminate their response with `BEL`.
-> * `urxvt`'s current version terminates responses with `ESC` if the query uses `ST` ([fixed](http://cvs.schmorp.de/rxvt-unicode/src/command.C?revision=1.600&view=markup)). 
-> * Terminology's current version uses the `#rrggbb` format when responding to `OSC 10` queries ([fixed](https://git.enlightenment.org/enlightenment/terminology/issues/14)).
-> * iTerm2 [can be configured](https://gitlab.com/gnachman/iterm2/-/commit/5c5785f3632b8e90dd69f458411a8b8b17aa0599) to use 8-bit color components instead of 16-bit.
+
+[^partially-opaque]: 
+	This rule is included because `urxvt` supports partially opaque colors. It is irrelevant for terminals that don't.
+[^compatibility]: 
+	Applications that want to be compatible with a wide range of terminals have to support some variation in the responses:
+	* Both `st` and macOS' built-in terminal always terminate their response with `BEL`.
+	* `urxvt`'s current version terminates responses with `ESC` if the query uses `ST` ([fixed](http://cvs.schmorp.de/rxvt-unicode/src/command.C?revision=1.600&view=markup)).
+	* Terminology's current version uses the `#rrggbb` format when responding to `OSC 10` queries ([fixed](https://git.enlightenment.org/enlightenment/terminology/issues/14)).
+	* iTerm2 [can be configured](https://gitlab.com/gnachman/iterm2/-/commit/5c5785f3632b8e90dd69f458411a8b8b17aa0599) to use 8-bit color components instead of 16-bit.
 
 ### OSC Color Control Sequence
 *These definitions are mostly taken from the [XTerm Control Sequences] document.*
@@ -104,8 +111,6 @@ An `OSC` color control sequence is one of the following `OSC` sequences:
 * `OSC 17`: Highlight background color
 * `OSC 18`: Tektronix cursor color
 * `OSC 19`: Highlight foreground color
-
-The colors set by `OSC 10` to `OSC 19` are referred to as *dynamic colors*.
 
 Each of these colors has a corresponding reset sequence
 `OSC 100+x`. For example `OSC 13` is reset by `OSC 113`.
