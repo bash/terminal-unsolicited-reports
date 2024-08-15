@@ -24,8 +24,8 @@ applications get a graceful fallback i.e. they receive the current value in resp
 
 Unsolicited reporting follows the granularity of the queries themselves[^granularity]. This means that individual colors of the 256-color palette can be tracked by sending an `OSC 4` query while the *unsolicited reports mode* is enabled.
 
-[^granularity]: This spec is lax enough that terminals can make the granularity more coarse if they choose to. For example, a terminal may choose to group all `OSC 4` or `OSC 5` queries together.
 [^one-time-query-format]: Namely that it also uses the *canonical form* if the query is in *canonical form*.
+[^granularity]: This spec is lax enough that terminals can make the granularity more coarse if they choose to. For example, a terminal may choose to group all `OSC 4` or `OSC 5` queries together.
 
 ## Definitions
 
